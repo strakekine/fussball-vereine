@@ -138,7 +138,7 @@
 
 // Der Verein — von neu.mjs aus verein.json eingesetzt. Alles andere in dieser Datei ist für jeden
 // Verein gleich.
-const V = {"name":"Yellow Boys","kurz":"Yellow Boys","flfName":"Yellow Boys Weiler-la-Tour","slug":"yellow-boys","repo":"strakekine/fussball-vereine","start":"U13 1","von":"Laurent R.","anstoss":false,"worker":"","fupa":"fc-yellow-boys-weiler-zum-turm","liveReiter":null,"teilen":""};
+const V = {"name":"Yellow Boys","kurz":"Yellow Boys","flfName":"Yellow Boys Weiler-la-Tour","slug":"yellow-boys","repo":"strakekine/fussball-vereine","start":"U13 1","von":"Laurent R.","anstoss":true,"worker":"https://fussball-vereine.rjtp6r9s9h.workers.dev/","fupa":"fc-yellow-boys-weiler-zum-turm","liveReiter":null,"teilen":""};
 
 // Auf- und Abstieg nach Phase 1 2026-2027, Rundschreiben der FLF (vom Nutzer als Bild):
 // Klasse I: 5./6. runter. II und III: 1. hoch, 5./6. runter. IV: 1./2. hoch, 5./6. runter.
@@ -452,7 +452,7 @@ function nachSpieltag(spiele) {
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.10.2026 d";
+const FASSUNG = "19.10.2026 e";
 // Je Verein ein eigener Schlüssel: alle Repos eines GitHub-Kontos liegen auf derselben Herkunft
 // (<konto>.github.io) und teilen sich den localStorage — sonst zeigte die App den Stand eines
 // anderen Vereins.
