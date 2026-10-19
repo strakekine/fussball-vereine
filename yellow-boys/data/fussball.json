@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-19T12:05:13.680Z",
+ "stand": "2026-10-19T21:31:49.673Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -5484,9 +5484,9 @@
       "id": 46030,
       "n": "Union Remich/Bous I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 7,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Mondorf, synth.)"
     },
