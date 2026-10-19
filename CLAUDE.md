@@ -17,6 +17,11 @@ Kurz, was man wissen muss:
   Fassung prüfen lassen, Zwischenspeicher). Der Test schlägt an, wenn das vergessen wurde.
 - Liveticker (Seniors 1, Nationalteam) **nur über den Worker**, kein GitHub-Rückfall wie bei
   Koeppchen. Leer, wenn bei FuPa niemand tickert.
+  Worker eingerichtet vom Nutzer am 19.10.2026: `https://fussball-vereine.rjtp6r9s9h.workers.dev/`
+  (eigener Worker neben dem Koeppchen-Worker, den nicht anfassen). Domain in der Cloud-Umgebung
+  freigegeben. Am 19.10. geprüft: Kehlen–Yellow Boys 5:0 per `verein`+`anstoss` gefunden,
+  Länderspiel per Slug, fremder Slug/unbekannter Verein/zu alter Anstoß → 400, CORS `*`.
+  Ob der Takt (`scheduled`, Secret `GITHUB_TOKEN`) anstößt, zeigen die Läufe auf GitHub.
 - `slug` eines Vereins nie ändern (Kalender-UIDs, Speicherschlüssel `fussball_<slug>`; alle Apps
   teilen sich die Herkunft `strakekine.github.io`).
 - Unten „Gemacht von Laurent R.“ **nur als Name, ohne Logo**: das Koeppchen-Logo hat in fremden
