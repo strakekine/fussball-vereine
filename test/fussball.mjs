@@ -184,9 +184,8 @@ for (const v of ordner) {
   try { A = logik(fs.readFileSync(path.join(WURZEL, v, "index.html"), "utf8")); } catch (e) { ok(false, v + ": " + e.message); continue; }
   gleich([A.V.slug, A.V.repo, A.V.worker, A.V.flfName], [v, repo.repo, repo.worker || "", c.flfName], v + ": index.html aktuell (sonst node tools/neu.mjs --alle)");
   ok(fs.existsSync(path.join(WURZEL, v, "logo.png")), v + ": logo.png");
-  const macher = path.join(WURZEL, "macher.png");
-  if (fs.existsSync(macher)) ok(fs.readFileSync(path.join(WURZEL, v, "index.html"), "utf8").includes(`const VON_LOGO = "data:image/png;base64,${fs.readFileSync(macher).toString("base64")}"`),
-    v + ": neben „Gemacht von“ steht macher.png (sonst node tools/neu.mjs --alle)");
+  // Unten nur der Name, kein Logo — das Koeppchen-Logo darf bei fremden Vereinen nicht stehen.
+  ok(!/class="von">[^`]*<img/.test(fs.readFileSync(path.join(WURZEL, v, "index.html"), "utf8")), v + ": „Gemacht von“ ohne Logo");
 }
 
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen bestanden`);

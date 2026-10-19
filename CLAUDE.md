@@ -19,6 +19,8 @@ Kurz, was man wissen muss:
   Koeppchen. Leer, wenn bei FuPa niemand tickert.
 - `slug` eines Vereins nie ändern (Kalender-UIDs, Speicherschlüssel `fussball_<slug>`; alle Apps
   teilen sich die Herkunft `strakekine.github.io`).
+- Unten „Gemacht von Laurent R.“ **nur als Name, ohne Logo**: das Koeppchen-Logo hat in fremden
+  Vereins-Apps nichts zu suchen (keine Erlaubnis des FC Koeppchen; vom Nutzer, 19.10.2026).
 - iPhone-Regeln wie in panini-wm-2026: kein `viewport-fit=cover`, Home-Icon PNG, `navigator.share`
   nur mit `text`.
 - Testen: `node test/fussball.mjs` (läuft auch vor jedem Abruf). Abruf live in der Cloud:

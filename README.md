@@ -45,14 +45,14 @@ Nach einer Änderung an `vorlage/index.html`, `tools/neu.mjs` oder `repo.json`: 
 | `fupa` | FuPa-Vereinsslug für den Liveticker (`us-mondorf`, `sporting-bartringen`). Leer = kein Ticker |
 | `farben` | `{ "kopf": "#rrggbb", "akzent": "#rrggbb" }` — Schrift, helle Töne, Aufstieg/Niederlage werden daraus gerechnet und auf Lesbarkeit geprüft |
 | `start` | Reiter beim ersten Öffnen (`"U13 1"`, `"Seniors 1"`; Standard U13 1, sonst der erste) |
-| `von` | freiwillig: „Gemacht von …“ unten in der App, sonst der aus `repo.json` (leer = weg). Daneben steht immer `macher.png` (das Koeppchen-Logo), nicht das Vereinslogo |
+| `von` | freiwillig: „Gemacht von …“ unten in der App, sonst der aus `repo.json` (leer = weg). **Ohne Logo** — das Koeppchen-Logo darf bei fremden Vereinen nicht stehen (keine Erlaubnis des Vereins) |
 | `alter` | freiwillig: Altersklassen und Reihenfolge als FLF-ids. Standard Seniors, U19, U17, U15, U13, U11, U9, Dames, Réserves (`[1,2,3,11,4,7,5,17,9999]`); alle in `tools/fussball.mjs` (`ALLE_AGES`) |
 | `bgl`, `nati` | Reiter BGL und Roude Léiw (Standard an) |
 | `liveReiter` | freiwillig: Reiter mit Ticker, Standard `"Seniors 1"` |
 | `teilen` | freiwillig: eigener Text für „App teilen“ (Link selbst hineinschreiben) |
 
 `repo.json` (eine für alle): `repo` (`konto/name`), `worker` (Adresse des Workers, leer = ohne) und
-`von` („Laurent R.“). `macher.png` (180×180) ist das Logo neben „Gemacht von …“ in allen Apps.
+`von` („Laurent R.“, steht unten in jeder App, nur der Name).
 
 ## Einmal einrichten
 

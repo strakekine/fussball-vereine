@@ -13,8 +13,6 @@ import { join } from "node:path";
 import { WURZEL, vereinsOrdner } from "./fussball.mjs";
 
 const VORLAGE = join(WURZEL, "vorlage", "index.html");
-// Logo neben „Gemacht von …“ (das Koeppchen-Logo des Machers), für alle Vereine dasselbe.
-const MACHER = join(WURZEL, "macher.png");
 
 // ---- Farben ----
 const hex = h => { const m = /^#?([0-9a-f]{6})$/i.exec(h.trim()); if (!m) throw new Error("Farbe als #rrggbb: " + h); return [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)); };
@@ -95,7 +93,6 @@ export function html(cfg, repo, logo, fassung) {
     NAME: cfg.name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"),
     KOPF: alsHex(hex(cfg.farben.kopf)),
     LOGO: "data:image/png;base64," + logo.toString("base64"),
-    VON_LOGO: "data:image/png;base64," + (existsSync(MACHER) ? readFileSync(MACHER) : logo).toString("base64"),
     FARBEN: farben(cfg.farben),
     VEREIN: JSON.stringify(appWerte(cfg, repo)).replace(/</g, "\\u003c"),
     FASSUNG: fassung,

@@ -508,9 +508,8 @@ async function holenWorker() {
 const QUELLEN_LIVE = [];
 // Logo nur einmal eingebettet (im Home-Icon), Kopf und Fußzeile nehmen es von dort.
 const LOGO = document.querySelector('link[rel="apple-touch-icon"]').href;
-// Neben „Gemacht von …“ steht das Logo des Machers (macher.png im Repo, FC Koeppchen), nicht das
-// des Vereins — vom Nutzer so gewollt, für alle Vereine gleich.
-const VON_LOGO = "{{VON_LOGO}}";
+// „Gemacht von …“ steht ohne Logo: das Vereinslogo passt dort nicht, und das Koeppchen-Logo darf
+// bei fremden Vereinen nicht stehen (keine Erlaubnis des Vereins; vom Nutzer, 19.10.2026).
 // FLF-Logo für den Reiter „Roude Léiw“ (vom Nutzer als Bild, 55×72, 32 Farben).
 const FLF_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAABICAMAAABlcZ1gAAAAYFBMVEXfKC+oHiLQ4OoAAACZ0/DnrK357u5yHx5lZWdTsN////8dYY+ooqObXV3iU1gZFRZzxe02iLbRo6OOsMZdjK05ms2xsbHfPUJGep+qf3//AACKQT/+/f1Rtuj06eqEPDuQAeA8AAAAIHRSTlP+/vwA//8F/f//uP////////8F////Bv//BgH////9/l20T9cAAAJ7SURBVHjandfroqIgEABgnEAltLTLOe0u4vu/5Q4XBU0FnF9ZfjmoMAy5mCgvJah4XH/K0gIysSsj0SjY9eEgCVgRjQrh33JyjlVjOx5FOxIN/1xK6ybWKnkc6mbgQ0PimYyHhySHTfDnUpI9Bg0cQbLNoMZo9mFJgOGHTVbXah8SuZVkYx3sjXFURCFf/6+yrNp+MGpyo9x090ZmOlnfMRqZ6kCHsgNsQSY69mvf+t8bY0ev3MqpIpwyiFWiq4rVdLsxSMpzrKppoh3Rr/uiWNO6GD3/SvjgOeCPwPS/jAbfINl53mh8YwkOKOcdDb9gbSD3HAw26PJbxiKuc27o8t5PTXoh+mHgOU6nKYT4aMnzHBcCpHoKwbss9xZP8+klOM1xvXCnP8WbZtyX2UkqeLLjOL75KvAN9xxF9/Rp9zTDvYLx8tR1ST+/8LxU1+GNgVWxaFTcLQeoFa6LfvHen398WAwQF1KlUuYtXSRaIzVrqorO9zBRHJpZ8pv7PeroID6zk4CLPmgH0fUFX20IXW2KRtxRf2ewXjemZquU9azr50e/Lp+HDi/4nIuvrcBJ15O0/wRbC7wpiU4OfjLp9wxS12v6fmXXaTfX4ZST/HXOSQ7nHPBzToI6506OL+ogJ7xTQ04EjmewbsdRsMWF2nrdQVC6l+7fIk8qKcYwgHSHYA438qwU5aGzB851vt6b4NQ6u08OILUrqL+emcWeuX2y25d7aPIcAhemaZnel099wAypPR8dAo6H3fubBX3HBKkbkMs3HN/MHmGfQ2NPcWa2z/Ew4mjYV4V9XCwWfdwEiyrSpeK2fdE3zjC3T3WwqMZIVKu++EQf/h/Q40g3HHy04AAAAABJRU5ErkJggg==";
 
@@ -667,7 +666,7 @@ function fuss() {
   return `<footer>Daten von ${quelle}, zuletzt geändert ${esc(stand)}<br>
     ${V.anstoss ? "Am Wochenende alle 15 Minuten aktualisiert, unter der Woche abends." : "Am Wochenende etwa stündlich aktualisiert, unter der Woche abends."}
     <br><button class="teilen" id="teilen">↗︎ App teilen</button>
-    ${V.von ? `<div class="von">Gemacht von ${esc(V.von)} <img alt="" src="${VON_LOGO}"></div>` : ""}
+    ${V.von ? `<div class="von">Gemacht von ${esc(V.von)}</div>` : ""}
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
 }
 
