@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-19T22:55:48.493Z",
+ "stand": "2026-10-20T20:16:55.822Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4838,25 +4838,25 @@
      "pl": 2,
      "id": 45033,
      "n": "ENT Canach/CSG I",
-     "sp": 4,
+     "sp": 5,
      "s": 4,
-     "u": 0,
+     "u": 1,
      "nl": 0,
-     "t": 13,
-     "g": 5,
-     "pkt": 12
+     "t": 15,
+     "g": 7,
+     "pkt": 13
     },
     {
      "pl": 3,
      "id": 44594,
      "n": "Yellow Boys Weiler-la-Tour I",
-     "sp": 4,
+     "sp": 5,
      "s": 3,
-     "u": 1,
+     "u": 2,
      "nl": 0,
-     "t": 11,
-     "g": 5,
-     "pkt": 10
+     "t": 13,
+     "g": 7,
+     "pkt": 11
     },
     {
      "pl": 4,
@@ -4896,6 +4896,18 @@
     },
     {
      "pl": 7,
+     "id": 44800,
+     "n": "FC The Belval Belvaux",
+     "sp": 5,
+     "s": 1,
+     "u": 1,
+     "nl": 3,
+     "t": 15,
+     "g": 17,
+     "pkt": 4
+    },
+    {
+     "pl": 8,
      "id": 45209,
      "n": "FC Luxembourg City",
      "sp": 4,
@@ -4907,7 +4919,7 @@
      "pkt": 4
     },
     {
-     "pl": 8,
+     "pl": 9,
      "id": 45077,
      "n": "FC Mamer 32 I",
      "sp": 3,
@@ -4919,19 +4931,19 @@
      "pkt": 3
     },
     {
-     "pl": 9,
+     "pl": 10,
      "id": 45184,
      "n": "CS Oberkorn I",
-     "sp": 4,
+     "sp": 5,
      "s": 1,
      "u": 0,
-     "nl": 3,
-     "t": 5,
-     "g": 22,
+     "nl": 4,
+     "t": 9,
+     "g": 30,
      "pkt": 3
     },
     {
-     "pl": 10,
+     "pl": 11,
      "id": 46030,
      "n": "Union Remich/Bous I",
      "sp": 4,
@@ -4941,18 +4953,6 @@
      "t": 3,
      "g": 13,
      "pkt": 2
-    },
-    {
-     "pl": 11,
-     "id": 44800,
-     "n": "FC The Belval Belvaux",
-     "sp": 4,
-     "s": 0,
-     "u": 1,
-     "nl": 3,
-     "t": 7,
-     "g": 13,
-     "pkt": 1
     },
     {
      "pl": 12,
@@ -5448,9 +5448,9 @@
       "id": 44800,
       "n": "FC The Belval Belvaux"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 8,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Camille Mersch (synth.)"
     },
@@ -5466,9 +5466,9 @@
       "id": 44594,
       "n": "Yellow Boys Weiler-la-Tour I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Canach, synth.)"
     },
@@ -7405,12 +7405,12 @@
      "pl": 5,
      "id": 45069,
      "n": "Olympia Christnach-Waldbillig II",
-     "sp": 4,
+     "sp": 5,
      "s": 2,
      "u": 1,
-     "nl": 1,
-     "t": 17,
-     "g": 10,
+     "nl": 2,
+     "t": 19,
+     "g": 13,
      "pkt": 7
     },
     {
@@ -7463,6 +7463,18 @@
     },
     {
      "pl": 10,
+     "id": 45442,
+     "n": "Red Boys Aspelt",
+     "sp": 5,
+     "s": 1,
+     "u": 0,
+     "nl": 4,
+     "t": 6,
+     "g": 13,
+     "pkt": 3
+    },
+    {
+     "pl": 11,
      "id": 46590,
      "n": "ENT Mondorf/Schengen II",
      "sp": 4,
@@ -7472,18 +7484,6 @@
      "t": 8,
      "g": 19,
      "pkt": 3
-    },
-    {
-     "pl": 11,
-     "id": 45442,
-     "n": "Red Boys Aspelt",
-     "sp": 4,
-     "s": 0,
-     "u": 0,
-     "nl": 4,
-     "t": 3,
-     "g": 11,
-     "pkt": 0
     }
    ],
    "spiele": [
@@ -7931,9 +7931,9 @@
       "id": 45442,
       "n": "Red Boys Aspelt"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 2,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Am Lahr (Christnach)"
     },
@@ -11878,9 +11878,9 @@
       "id": 46444,
       "n": "F91 Dudelange I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 7,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Bloes (Bascharage, synth.)"
     },
@@ -12680,9 +12680,9 @@
       "id": 45492,
       "n": "ENT Mondorf/Schengen II"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Kierlingerstrooss (Dalheim)"
     },
