@@ -45,10 +45,22 @@
   h1{font-family:'Bebas Neue',sans-serif;letter-spacing:1.5px;margin:0;font-size:28px;color:var(--headT);line-height:1.05}
   .sub{color:var(--headT);opacity:.72;font-size:12.5px;margin-top:1px}
   /* Reiter im Raster: acht passen in zwei Reihen à vier, auch auf dem kleinen iPhone. */
-  .seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:1px;background:var(--segLine);border:1px solid var(--segLine);border-radius:10px;overflow:hidden;margin-top:9px}
+  .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--segLine);border:1px solid var(--segLine);border-radius:10px;overflow:hidden;margin-top:9px}
   .seg button{background:var(--segBg);white-space:nowrap;color:var(--segText);border:0;padding:9px 10px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;letter-spacing:.3px}
   .seg button img{height:28px;display:block;margin:-6px auto}
   .seg button.on{background:var(--segOn);color:var(--segOnT)}
+  @media (min-width:600px){.seg{grid-template-columns:repeat(6,1fr)}}
+  /* Langer Text („🔴 1 Spiel gerade LIVE“) bricht lieber um, als die Logos abzuschneiden (390 px). */
+  .seg button.woche{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;text-transform:uppercase;letter-spacing:.6px;white-space:normal;line-height:1.2;padding:9px 8px}
+  .seg button.woche img{height:22px;margin:-4px 0;display:inline-block;border-radius:50%;background:#fff;flex:none}
+  @media (max-width:420px){.seg button.woche{font-size:12.5px;letter-spacing:.2px;gap:6px}}
+  .wzus{font-size:15px;font-weight:600;text-align:center}
+  .wzeile{cursor:pointer}
+  /* Schild der Mannschaft in der Kopffarbe des Vereins (bei Koeppchen schwarz). */
+  .pill.wteam{margin-left:0;background:var(--head);color:var(--headT);font-size:14px;padding:3px 10px;vertical-align:1px}
+  .wzugleich{color:#b45309;font-weight:600}
+  .wlive .sc{background:#d4001a !important;color:#fff !important}
+  .wlivetxt{color:#d4001a;font-weight:700}
   main{max-width:720px;margin:0 auto;padding:4px 12px 60px}
 
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin:12px 0;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
@@ -60,6 +72,7 @@
   details.card:not([open])>summary{border-bottom:0}
   h2{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;margin:0;flex:1}
   .hint{font-size:12px;color:var(--muted);text-align:right}
+  .hint.tagdatum{font-size:15px;font-weight:600;color:var(--text)}
   .cbody{padding:10px 12px}
   .heute{border:2px solid var(--accent)}
   .heute .chead{background:var(--tint)}
@@ -260,6 +273,9 @@ function liveAnzeige(L, v, now) {
   if (!sp || (sp.gespielt && sp.hs != null)) return null;
   if (now > Date.parse(L.anstoss) + 4 * 3600e3) return null;
   if (L.section !== "LIVE" && L.section !== "POST") return null;
+  // FuPa setzt ab Anpfiff von selbst „LIVE“, auch ohne Tickerer (19.10.2026, Seniors 2 gegen Titus:
+  // kein Stand, kein Name). Dann bleibt der Spieltag-Kasten „Spiel läuft“ stehen.
+  if (L.hs == null && L.as == null && !L.ticker && !(L.tore || []).length) return null;
   return { ...L, zeit: liveZeit(L, now), laeuft: L.section === "LIVE" };
 }
 
@@ -326,6 +342,17 @@ function spieltagHeute(v, now) {
   return sp ? { sp, begonnen: now >= Date.parse(sp.d) } : null;
 }
 
+// Countdown in den letzten 15 min vor Anpfiff (vom Nutzer, 19.10.2026, für alle Reiter): Minuten,
+// aufgerundet; null außerhalb und bei „Uhrzeit noch offen“ (00:00 bei der FLF).
+const COUNTDOWN_MS = 15 * 60e3;
+function minutenBisAnpfiff(sp, now) {
+  const a = Date.parse(sp.d), rest = a - now;
+  if (!(rest > 0) || rest > COUNTDOWN_MS) return null;
+  const zeit = new Date(a).toLocaleTimeString("de-DE", { timeZone: "Europe/Luxembourg", hour: "2-digit", minute: "2-digit" });
+  return zeit === "00:00" ? null : Math.ceil(rest / 60e3);
+}
+const countdownText = m => `Anpfiff in ${m} ${m === 1 ? "Minute" : "Minuten"}`;
+
 // Liegt bei diesem Reiter gerade ein Spiel im Live-Fenster? Dann fragt die App jede Minute nach.
 // Stand vom Cloudflare-Worker (tools/cloudflare-worker.js, ~20 s alt) über den von GitHub legen
 // (data/live.json, bis zu 7 min alt). Vom Worker kommt nur der Stand; welches Spiel, Anstoß und
@@ -348,12 +375,28 @@ function mitWorker(L, W) {
 const LIVE_REITER = V.worker && V.fupa ? V.liveReiter || "Seniors 1" : null;
 
 // Das Spiel dieses Reiters, das gerade im Live-Fenster liegt, oder null.
+// Nur Seniors 1 — der Ticker der Reserven (Koeppchen, seit 19.10.2026) ist hier bewusst nicht dabei.
 function liveSpiel(v, now) {
-  if (!v || v.team.reiter !== LIVE_REITER) return null;
+  if (!v || !LIVE_REITER || v.team.reiter !== LIVE_REITER) return null;
   return [...v.kommend, ...v.gespielt].find(sp => {
     const a = Date.parse(sp.d);
     return now >= a - LIVE_FENSTER.vor && now <= a + LIVE_FENSTER.nach;
   }) || null;
+}
+
+// Führt FuPa das Spiel mit Heim/Gast andersherum als die FLF? Der FuPa-Spielslug beginnt mit der
+// Heimmannschaft („us-mondorf-m1-fc-wiltz-71-m1-…“). Bei Koeppchen gesehen (Beggen–Koeppchen II,
+// 23.10.2026). null, solange der Worker noch keinen Slug geliefert hat.
+function fupaGedreht(lv, wirHeim) {
+  if (!lv || !lv.slug || !V.fupa) return null;
+  return lv.slug.startsWith(V.fupa + "-m1-") !== wirHeim;
+}
+
+// Stand vom Ticker in FLF-Reihenfolge, falls FuPa Heim/Gast andersherum führt (Namen kommen von der FLF).
+function nachFlf(lv, wirHeim) {
+  if (!fupaGedreht(lv, wirHeim)) return lv;
+  const dreh = l => (l || []).map(e => ({ ...e, heim: !e.heim }));
+  return { ...lv, hs: lv.as, as: lv.hs, tore: dreh(lv.tore), karten: dreh(lv.karten) };
 }
 
 // Grundlage für den Kasten: live.json, wenn sie dieses Spiel meint — sonst ein leeres Gerüst aus
@@ -448,11 +491,52 @@ function nachSpieltag(spiele) {
   return [...m.entries()].sort((a, b) => a[0] - b[0]);
 }
 
+// ---- Unsere Woche (aus der Koeppchen-App, vom Nutzer 20.10.2026) ----
+// Alle Spiele aller Reiter des Vereins Mo–So (Luxemburger Zeit). Ab Sonntag 22 Uhr die nächste Woche.
+// Ein Spiel steht einmal da, auch wenn es bei zwei Reitern hängt (Pokal U13 ohne I/II → „U13“).
+const LUX_TAG = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+function wocheTage(now) {
+  const wt = new Date(now).toLocaleDateString("en-GB", { timeZone: "Europe/Luxembourg", weekday: "short" });
+  const i = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].indexOf(wt);
+  const h = +new Date(now).toLocaleTimeString("en-GB", { timeZone: "Europe/Luxembourg", hour: "2-digit", hourCycle: "h23" });
+  const start = now - i * 864e5 + (i === 6 && h >= 22 ? 7 * 864e5 : 0);
+  return [0, 1, 2, 3, 4, 5, 6].map(k => tagLux(start + k * 864e5));
+}
+function wocheSpiele(D, tage, now) {
+  const { tabs } = aufteilen(D);
+  const zuTeam = new Map();
+  for (const t of D.teams) for (const id of (t.ids || [t.id])) zuTeam.set(id, t);
+  const seen = new Map();
+  for (const t of tabs) {
+    const v = sicht(D, t.id, now);
+    for (const sp of [...v.kommend, ...v.gespielt]) {
+      if (seen.has(sp.id) || !tage.includes(tagLux(Date.parse(sp.d)))) continue;
+      const wt = zuTeam.get(sp.wir);
+      seen.set(sp.id, { ...sp, reiter: wt?.reiter || wt?.kat || t.reiter, tab: wt?.reiter ? wt.id : t.id, heim: sp.h.id === sp.wir });
+    }
+  }
+  const alle = [...seen.values()].sort((a, b) => a.d.localeCompare(b.d) || a.reiter.localeCompare(b.reiter));
+  // Gleichzeitig: zwei eigene Spiele am selben Tag, Anstoß < 90 min auseinander, anderer Platz.
+  for (const a of alle) a.zugleich = alle.filter(b => b !== a && tagLux(Date.parse(b.d)) === tagLux(Date.parse(a.d))
+    && !zeitOffen(a) && !zeitOffen(b) && Math.abs(Date.parse(a.d) - Date.parse(b.d)) < 90 * 60e3 && a.ort !== b.ort).map(b => b.reiter);
+  return alle;
+}
+const zeitOffen = sp => new Date(sp.d).toLocaleTimeString("de-DE", { timeZone: "Europe/Luxembourg", hour: "2-digit", minute: "2-digit" }) === "00:00";
+function wocheBilanz(alle) {
+  const b = { s: 0, u: 0, n: 0 };
+  for (const sp of alle) {
+    if (!sp.gespielt || sp.hs == null || sp.erg === false) continue;
+    const f = sp.heim ? sp.hs - sp.as : sp.as - sp.hs;
+    b[f > 0 ? "s" : f < 0 ? "n" : "u"]++;
+  }
+  return b;
+}
+
 // ==== Oberfläche ====
 
 // Bei jeder Änderung hochzählen: steht unten in der App. Am iPhone läuft nach einem Push oft noch
 // die alte Datei aus dem Zwischenspeicher (wie beim Vokabeltrainer) — erst Fassung prüfen lassen.
-const FASSUNG = "19.10.2026 e";
+const FASSUNG = "20.10.2026 c";
 // Je Verein ein eigener Schlüssel: alle Repos eines GitHub-Kontos liegen auf derselben Herkunft
 // (<konto>.github.io) und teilen sich den localStorage — sonst zeigte die App den Stand eines
 // anderen Vereins.
@@ -584,16 +668,27 @@ function alleSpieleHtml(k, ids) {
 function render() {
   const main = document.getElementById("main");
   if (!D) return;
+  UMSCHALT = null;   // setzt heuteHtml, wenn ein Spieltag-Kasten steht
   const { tabs } = aufteilen(D);
   // Beim ersten Öffnen der Reiter aus verein.json (`start`, z. B. "U13 1"), sonst der erste.
   const extra = extraReiter(D);
-  if (!tabs.some(t => t.id === ST.team) && !extra.some(t => t.id === ST.team))
+  if (!tabs.some(t => t.id === ST.team) && !extra.some(t => t.id === ST.team) && ST.team !== "woche")
     ST.team = (tabs.find(t => t.reiter === V.start) || tabs.find(t => t.kat === V.start) || tabs[0])?.id ?? null;
-  document.getElementById("seg").innerHTML = [...tabs, ...extra].map(t =>
+  const wTage = wocheTage(Date.now()), wAlle = wocheSpiele(D, wTage, Date.now());
+  const heuteN = wAlle.filter(sp => tagLux(Date.parse(sp.d)) === tagLux(Date.now())).length;
+  const liveN = liveZahl(Date.now());
+  const wZahl = liveN ? `🔴 ${liveN} ${liveN === 1 ? "Spiel" : "Spiele"} gerade LIVE` : heuteN ? `heute ${heuteN} ${heuteN === 1 ? "Spiel" : "Spiele"}` : `${wAlle.length} ${wAlle.length === 1 ? "Spiel" : "Spiele"}`;
+  document.getElementById("seg").innerHTML = `<button data-t="woche" class="woche${ST.team === "woche" ? " on" : ""}"><img alt="" src="${LOGO}">Unsere Woche · ${wZahl}<img alt="" src="${LOGO}"></button>` + [...tabs, ...extra].map(t =>
     `<button data-t="${t.id}" class="${t.id === ST.team ? "on" : ""}">${t.bild ? `<img alt="${esc(t.reiter)}" src="${FLF_LOGO}">` : esc(t.reiter || t.n)}</button>`).join("");
   if (ST.team == null) { main.innerHTML = `<div class="note">Keine Spiele gefunden.</div>`; return; }
 
   const now = Date.now();
+  if (ST.team === "woche") {
+    LIVE_SP = null; LIVE_POLL = false;
+    document.getElementById("sub").textContent = "Unsere Woche · " + D.saison.n.replace("Saison ", "");
+    main.innerHTML = wocheHtml(wTage, wAlle, now) + fuss();
+    return;
+  }
   if (ST.team === "bgl" || ST.team === "nati") {
     LIVE_SP = null; LIVE_POLL = false;   // natiHtml setzt beide, wenn ein Länderspiel läuft
     main.innerHTML = (ST.team === "bgl" ? bglHtml(now) : natiHtml(now)) + fuss();
@@ -606,7 +701,7 @@ function render() {
   let h = "";
 
   LIVE_SP = liveSpiel(v, now);
-  const lv = liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), W), v, now);
+  const lv = nachFlf(liveAnzeige(mitWorker(liveBasis(L, LIVE_SP), W), v, now), LIVE_SP && v.ids.has(LIVE_SP.h.id));
   LIVE_POLL = !!lv || imLiveFenster(v, now);
   // Spieltag-Kasten, solange (noch) kein LIVE-Kasten da ist.
   const heute = !lv && spieltagHeute(v, now);
@@ -627,8 +722,8 @@ function render() {
     const pokal = art(sp) ? `<span class="pill">${art(sp)}</span>` : "";
     if (i === 0) {
       h += `<div class="next"><div class="when">${esc(wann(sp.d))} <span class="muted" style="font-family:Barlow;font-size:14px;letter-spacing:0">${bisDahin(sp.d, now)}</span></div>
-        ${spielZeile(sp, ids, `${esc(sp.ort || "")}${pokal}<br>${esc(sp.klasse)}`)}</div>`;
-    } else h += spielZeile(sp, ids, `${esc(wann(sp.d))}${sp.ort ? " · " + esc(sp.ort) : ""}${pokal}`);
+        ${spielZeile(sp, ids, `${sp.ort ? "📍 " + esc(sp.ort) : ""}${pokal}<br>${esc(sp.klasse)}`)}</div>`;
+    } else h += spielZeile(sp, ids, `${esc(wann(sp.d))}${sp.ort ? " · 📍 " + esc(sp.ort) : ""}${pokal}`);
   });
   if (v.kommend.length > ZEIG)
     h += `<div class="muted" style="text-align:center;font-size:12.5px;margin-top:8px">+ ${v.kommend.length - ZEIG} weitere unter „Alle Spiele der Klasse“</div>`;
@@ -656,7 +751,7 @@ function render() {
   for (const sp of v.gespielt) {
     const pokal = art(sp) ? " · " + art(sp) : "";
     const fehlt = !sp.gespielt && sp.erg !== false ? " · Ergebnis noch nicht eingetragen" : "";
-    h += spielZeile(sp, ids, `${esc(wann(sp.d, false))}${pokal}${sp.forfait ? " · Forfait" : ""}${fehlt}`);
+    h += spielZeile(sp, ids, `${esc(wann(sp.d, false))}${pokal}${sp.forfait ? (Date.parse(sp.d) > now ? " · Forfait, im Voraus gewertet" : " · Forfait") : ""}${fehlt}`);
   }
   h += `</div></section>`;
 
@@ -677,7 +772,7 @@ function fuss() {
   const quelle = ST.team === "nati" ? `<a href="https://www.fupa.net/team/luxemburg-m1" target="_blank" rel="noopener">FuPa</a>`
     : `<a href="https://extranet.flf.lu/match" target="_blank" rel="noopener">extranet.flf.lu</a>`;
   return `<footer>Daten von ${quelle}, zuletzt geändert ${esc(stand)}<br>
-    ${V.anstoss ? "Am Wochenende alle 15 Minuten aktualisiert, unter der Woche abends." : "Am Wochenende etwa stündlich aktualisiert, unter der Woche abends."}
+    ${V.anstoss ? "Aktualisiert jeden Tag um 7:00 und 23:30 Uhr, Mo–Fr zusätzlich um 22:15 Uhr, Sa/So von 8 bis 22 Uhr alle 15 Minuten." : "Am Wochenende etwa stündlich aktualisiert, unter der Woche abends."}
     <br><button class="teilen" id="teilen">↗︎ App teilen</button>
     ${V.von ? `<div class="von">Gemacht von ${esc(V.von)}</div>` : ""}
     <div style="margin-top:6px;font-size:11px">Fassung ${FASSUNG}</div></footer>`;
@@ -686,14 +781,25 @@ function fuss() {
 // „Heute Spieltag“ (Mannschaften und Roude Léiw).
 function heuteHtml(heute, ids, { live, pill, ohneLive }) {
   const sp = heute.sp, zeit = wann(sp.d).split(" · ")[1];
-  const titel = heute.begonnen ? "Spiel läuft" : "Heute Spieltag! ⚽";
-  const oben = heute.begonnen ? (zeit ? "seit " + zeit : "heute") : (zeit ? "Anstoß " + zeit : "Uhrzeit noch offen");
+  const min = !heute.begonnen && minutenBisAnpfiff(sp, Date.now());
+  // Nächster Wechsel des Kastens (Countdown an, Anpfiff) — der Takt unten baut dann neu.
+  if (!heute.begonnen && zeit) UMSCHALT = Date.parse(sp.d) - (min ? 0 : COUNTDOWN_MS);
+  // 15 min nach Anpfiff ohne Tickerer: nicht weiter auf den Ticker vertrösten (vom Nutzer, 19.10.2026).
+  const keinTicker = heute.begonnen && Date.now() >= Date.parse(sp.d) + 15 * 60e3;
+  if (heute.begonnen && live && !keinTicker) UMSCHALT = Date.parse(sp.d) + 15 * 60e3;
+  const titel = heute.begonnen ? "Spiel läuft" : min ? "Gleich geht's los! ⚽" : "Heute Spieltag! ⚽";
+  const oben = heute.begonnen ? esc(zeit ? "seit " + zeit : "heute")
+    : min ? `<span id="countdown" data-d="${esc(sp.d)}">${countdownText(min)}</span> · ${esc(zeit)}`
+    : esc(zeit ? "Anstoß " + zeit : "Uhrzeit noch offen");
+  // Nicht „startet mit dem Anpfiff“: es tickert nicht immer jemand (vom Nutzer, bei Koeppchen gesehen).
   const unten = heute.begonnen
-    ? (live ? "Der Liveticker erscheint hier, sobald bei FuPa getickert wird." : ohneLive)
-    : (live ? "Liveticker startet mit dem Anpfiff." : "");
+    ? (!live ? ohneLive : keinTicker
+        ? "Bisher tickert niemand bei FuPa – heute gibt es wohl keinen Liveticker. Das Ergebnis kommt, sobald die FLF es einträgt."
+        : "Der Liveticker erscheint hier, falls bei FuPa jemand tickert.")
+    : (live ? "Liveticker, wenn verfügbar — sobald bei FuPa jemand tickert." : "");
   const p = pill(sp);
   return `<section class="card heute"><div class="chead"><h2>${titel}</h2>${p ? `<span class="pill">${esc(p)}</span>` : ""}</div><div class="cbody">
-    <div class="wann">${esc(oben)}</div>
+    <div class="wann">${oben}</div>
     <div class="m" style="border:0"><div class="t h${ids.has(sp.h.id) ? " wir" : ""}">${umbruch(anzeige(sp.h.n))}</div>
     <div class="sc offen">–</div><div class="t${ids.has(sp.a.id) ? " wir" : ""}">${umbruch(anzeige(sp.a.n))}</div></div>
     ${sp.ort ? `<div class="wo">📍 ${esc(sp.ort)}</div>` : ""}
@@ -723,17 +829,96 @@ function liveHtml(lv, wir, zusatz) {
     </div></section>`;
 }
 
+// Live in der Woche und im Knopf: alle Spiele mit möglichem Ticker im Live-Fenster (Seniors 1),
+// je Spiel ein Worker-Stand in WS (FLF-Spiel-ID → Antwort). Unabhängig vom offenen Reiter.
+const WS = new Map();
+function liveKandidaten(now) {
+  if (!D) return [];
+  return aufteilen(D).tabs.map(t => {
+    const v = sicht(D, t.id, now), sp = liveSpiel(v, now);
+    return sp && { sp, v };
+  }).filter(Boolean);
+}
+function liveStand(k, now) {
+  return liveAnzeige(mitWorker(liveBasis(L, k.sp), WS.get(k.sp.id) || (W && W.fuer === k.sp.id ? W : null)), k.v, now);
+}
+function liveZahl(now) { return liveKandidaten(now).filter(k => liveStand(k, now)?.laeuft).length; }
+async function holenWorkerAlle() {
+  if (!WORKER_URL) return false;
+  let neu = false;
+  await Promise.all(liveKandidaten(Date.now()).map(async k => {
+    const b = liveBasis(L, k.sp);
+    const q = (b.slug ? "?slug=" + encodeURIComponent(b.slug) : "?anstoss=" + encodeURIComponent(k.sp.d)) + "&verein=" + encodeURIComponent(V.slug);
+    try {
+      const r = await fetch(WORKER_URL + q, { cache: "no-store" });
+      if (!r.ok) return;
+      const w = { ...(await r.json()), fuer: k.sp.id };
+      if (JSON.stringify(WS.get(k.sp.id)) !== JSON.stringify(w)) { WS.set(k.sp.id, w); neu = true; }
+    } catch (e) {}
+  }));
+  return neu;
+}
+
+function wocheHtml(tage, alle, now) {
+  const kurz = d => { const x = new Date(d + "T12:00:00"); return x.getDate() + "." + (x.getMonth() + 1) + "."; };
+  const heim = alle.filter(sp => sp.heim).length;
+  const vorbei = alle.length && alle.every(sp => sp.gespielt || Date.parse(sp.d) < now - 3 * 3600e3);
+  const b = wocheBilanz(alle);
+  const zus = !alle.length ? "Diese Woche keine Spiele."
+    : vorbei && b.s + b.u + b.n ? `${b.s} ${b.s === 1 ? "Sieg" : "Siege"}, ${b.u} Remis, ${b.n} ${b.n === 1 ? "Niederlage" : "Niederlagen"}`
+    : `${alle.length} ${alle.length === 1 ? "Spiel" : "Spiele"}, davon ${heim} zu Hause`;
+  let h = `<section class="card"><div class="chead"><h2>Unsere Woche</h2><div class="hint tagdatum">${kurz(tage[0])} – ${kurz(tage[6])}</div></div>
+    <div class="cbody"><div class="wzus">${esc(zus)}</div></div></section>`;
+  if (!alle.length) {
+    const naechstes = aufteilen(D).tabs.flatMap(t => sicht(D, t.id, now).kommend.map(sp => ({ ...sp, reiter: t.reiter })))
+      .sort((a, b) => a.d.localeCompare(b.d))[0];
+    if (naechstes) h += `<div class="note">Nächstes Spiel: ${esc(wann(naechstes.d))} · ${esc(naechstes.reiter)} gegen ${esc(anzeige(naechstes.heim === false ? naechstes.h.n : naechstes.a.n))}</div>`;
+    return h;
+  }
+  for (const tag of tage) {
+    const sp = alle.filter(s => tagLux(Date.parse(s.d)) === tag);
+    if (!sp.length) continue;
+    const istHeute = tag === tagLux(now);
+    const titel = new Date(tag + "T12:00:00").toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "numeric" });
+    h += `<section class="card${istHeute ? " heute" : ""}"><div class="chead"><h2>${istHeute ? "Heute · " : ""}${esc(titel)}</h2></div><div class="cbody">`;
+    const kand = liveKandidaten(now);
+    for (const s0 of [...sp.filter(x => !zeitOffen(x)), ...sp.filter(zeitOffen)]) {
+      const k = kand.find(k => k.sp.id === s0.id), lv = k && liveStand(k, now);
+      // Live-Stand vom Ticker, bis die FLF das Ergebnis hat; ohne Ticker nur „läuft“.
+      // FuPa kann Heim/Gast andersherum führen — in der Woche gilt die FLF-Reihenfolge (Zahlen drehen, Namen nicht).
+      const gedreht = !!fupaGedreht(lv, s0.heim);
+      const s = lv ? { ...s0, gespielt: true, hs: gedreht ? lv.as : lv.hs, as: gedreht ? lv.hs : lv.as } : s0;
+      const laeuft = !lv && !s0.gespielt && now >= Date.parse(s0.d) && now <= Date.parse(s0.d) + 3 * 3600e3 && !zeitOffen(s0);
+      const ids = new Set([s.wir]);
+      const teile = [`<span class="pill wteam">${esc(s.reiter)}</span>`, s.heim ? "🏠" : "✈️",
+        lv ? `<span class="wlivetxt">${lv.laeuft ? "🔴 LIVE · " + esc(lv.zeit) : "Abpfiff · laut Ticker"}</span>`
+          : laeuft ? `<span class="wlivetxt">läuft</span>`
+          : s.gespielt ? "" : esc(zeitOffen(s) ? "Uhrzeit offen" : wann(s.d).split(" · ")[1]),
+        // Stadion, solange die FLF kein Ergebnis hat — auch während das Spiel läuft (vom Nutzer).
+        !s0.gespielt && s.ort ? "📍 " + esc(s.ort) : "",
+        s.typ === "CUP" ? "Pokal" : s.typ === "FM" ? "Test" : "",
+        s.forfait ? "Forfait" : "",
+        s.zugleich.length ? `<span class="wzugleich">gleichzeitig mit ${esc(s.zugleich.join(", "))}</span>` : ""];
+      h += `<div class="wzeile${lv?.laeuft ? " wlive" : ""}" data-gehe="${s.tab}">${spielZeile(s, ids, teile.filter(Boolean).join(" · "))}</div>`;
+    }
+    h += `</div></section>`;
+  }
+  return h;
+}
+
 function bglHtml(now) {
   const b = D.bgl, v = bglSicht(b, now);
   document.getElementById("sub").textContent = "BGL League · " + D.saison.n.replace("Saison ", "");
-  const tag = ([nr, sp], titel) => `<section class="card"><div class="chead"><h2>${titel} ${nr}</h2><div class="hint">${esc(wann(sp[0].d, false))}</div></div>
-    <div class="cbody">${sp.map(s => spielZeile(s, null, [s.gespielt ? "" : esc(wann(s.d)), s.ort ? "📍 " + esc(s.ort) : ""].filter(Boolean).join(" · "))).join("")}</div></section>`;
+  const tag = ([nr, sp], titel) => `<section class="card"><div class="chead"><h2>${titel} ${nr}</h2><div class="hint tagdatum">${esc(wann(sp[0].d, false))}</div></div>
+    <div class="cbody">${sp.map(s => spielZeile(s, null, s.gespielt ? [] : [esc(wann(s.d)), s.ort ? "📍 " + esc(s.ort) : ""].filter(Boolean).join(" · "))).join("")}</div></section>`;
   const t = bglTabelle(b);
   const abz = t.selbst ? t.tabelle.filter(r => r.abzug).map(r => `${esc(r.n)} ${r.abzug}`).join(", ") : "";
   // FuPa begründet Punktabzüge in einem Satz (`text`), den zeigen wir mit.
   const grund = b.text ? `<div class="muted" style="font-size:12px;margin-top:8px">${esc(b.text)}</div>` : "";
   const quelle = b.quelle === "FuPa" ? `<div class="muted" style="font-size:12px;margin-top:8px">Tabelle von FuPa (aktueller als die der FLF), Spiele von der FLF.</div>` : "";
   const hinweis = grund + quelle + (t.selbst ? `<div class="muted" style="font-size:12px;margin-top:8px">Aus den Ergebnissen gerechnet — die FLF-Tabelle steht noch auf ${t.flfSp} Spielen. Bei Punktgleichheit kann die FLF anders sortieren.${abz ? ` Punktabzug laut FLF: ${abz}.` : ""}</div>` : "");
+  // Tabelle zuerst, dann letzter und nächste Spieltage — anders als bei den Mannschaften, mit Absicht
+  // (vom Nutzer, 20.10.2026: so ist man schneller bei der Tabelle). Stadion nur bei Spielen, die noch kommen.
   let h = `<section class="card"><div class="chead"><h2>Tabelle</h2><div class="hint">BGL League</div></div>
     <div class="cbody">${tabelleHtml({ n: b.n, tabelle: t.tabelle }, new Set())}${hinweis}</div></section>`;
   if (v.letzter) h += tag(v.letzter, "Zuletzt: Spieltag");
@@ -801,9 +986,12 @@ async function aktualisieren() {
   }
   render();   // setzt LIVE_SP für den Reiter, der gerade offen ist
   if (LIVE_SP) { const w = await holenWorker(); if (w) { W = w; render(); } }
+  if (await holenWorkerAlle()) render();
 }
 
 document.addEventListener("click", e => {
+  const z = e.target.closest("[data-gehe]");
+  if (z) { ST.team = +z.dataset.gehe; persist(); render(); window.scrollTo(0, 0); return; }
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.t) {
@@ -826,6 +1014,19 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) aktu
 // Aufgeklapptes (z. B. „Klappt nicht?“) jede Minute wieder zuklappt.
 // Mit Worker alle 20 s (so lange merkt er sich den Stand), sonst jede Minute.
 let LIVE_POLL = false;
+// Woche und Knopf: alle laufenden Spiele mit Ticker, egal welcher Reiter offen ist.
+setInterval(async () => {
+  if (document.hidden || !D || !liveKandidaten(Date.now()).length) return;
+  if (await holenWorkerAlle()) render();
+}, 20e3);
+// Countdown: jede 10 s die Minuten nachführen; zum Beginn des Countdowns und beim Anpfiff neu bauen.
+let UMSCHALT = null;
+setInterval(() => {
+  if (document.hidden || !D) return;
+  if (UMSCHALT && Date.now() >= UMSCHALT) { render(); return; }
+  const el = document.getElementById("countdown"), m = el && minutenBisAnpfiff({ d: el.dataset.d }, Date.now());
+  if (m) el.textContent = countdownText(m);
+}, 10e3);
 setInterval(async () => {
   if (!LIVE_POLL || document.hidden || !D) return;
   const vorher = JSON.stringify(mitWorker(liveBasis(L, LIVE_SP), W));

@@ -1,5 +1,5 @@
 // Cloudflare Worker für ALLE Vereine dieses Repos. Zwei Aufgaben:
-//  1. Zeitplan: stößt den FLF-Abruf (fussball.yml) pünktlich an — GitHub startet geplante Läufe
+//  1. Zeitplan: stößt den FLF-Abruf (fussball.yml) pünktlich an (Zeiten: abrufFaellig) — GitHub startet geplante Läufe
 //     oft verspätet oder lässt sie aus. Er holt nichts von der FLF, er drückt nur bei GitHub auf
 //     „Abruf starten“. GitHubs eigener Zeitplan bleibt als Reserve.
 //  2. Liveticker: Stand eines FuPa-Spiels für die Apps (FuPa schickt keine CORS-Freigabe), Seniors 1
@@ -28,17 +28,21 @@ const gefunden = new Map(); // team|anstoss → { t, slug } — die Suche kostet
 let VEREINE = { t: 0, liste: null };
 
 // ---- Zeitplan ----
-// Wochenende 8–22 Uhr Luxemburger Zeit jede Viertelstunde, Mo–Fr 20:15 UTC, jeden Tag 23:30.
+// Alles in Luxemburger Zeit (eigene Uhr, damit Sommer/Winter stimmt), wie bei Koeppchen seit 20.10.2026:
+// Wochenende 8–22 Uhr jede Viertelstunde, Mo–Fr 22:15, jeden Tag 7:00 und 23:30.
 export function abrufFaellig(ms) {
   const teile = Object.fromEntries(new Intl.DateTimeFormat("en-GB", {
     timeZone: "Europe/Luxembourg", weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
   }).formatToParts(new Date(ms)).map(p => [p.type, p.value]));
   const h = +teile.hour, m = +teile.minute;
   if (m % 15) return false;
+  // Jeden Abend 23:30: Abendspiele und Länderspiele (20:45) sind dann vorbei.
   if (h === 23 && m === 30) return true;
+  // Jeden Morgen 7:00: was die FLF erst nach Mitternacht einträgt, ist da, wenn man aufsteht.
+  if (h === 7 && m === 0) return true;
   if (teile.weekday === "Sat" || teile.weekday === "Sun") return h >= 8 && (h < 22 || (h === 22 && m === 0));
-  const u = new Date(ms);
-  return u.getUTCHours() === 20 && u.getUTCMinutes() === 15;
+  // Mo–Fr 22:15 Ortszeit (bis 20.10.2026: 20:15 UTC, das wäre im Winter 21:15 gewesen).
+  return h === 22 && m === 15;
 }
 
 async function anstossen(env) {

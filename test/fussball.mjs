@@ -25,7 +25,8 @@ function logik(src) {
   const i = src.indexOf("==== Logik"), j = src.indexOf("==== Oberfläche");
   if (i < 0 || j < 0) throw new Error("Abschnittsmarken Logik/Oberfläche nicht gefunden");
   return new Function(src.slice(src.lastIndexOf("//", i), src.lastIndexOf("//", j)) + `
-    return { V, LIVE_REITER, extraReiter, spieltagHeute, liveSpiel, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag };`)();
+    return { V, LIVE_REITER, extraReiter, spieltagHeute, liveSpiel, zonen, ausgang, aufteilen, anzeige, sicht, nachSpieltag,
+             minutenBisAnpfiff, wocheTage, wocheSpiele, wocheBilanz, liveAnzeige, liveBasis, mitWorker, fupaGedreht, nachFlf };`)();
 }
 const M = logik(html(CFG, { repo: "konto/repo", worker: "" }, PNG, "1.1.2026 a"));
 
@@ -142,9 +143,19 @@ gleich([saisonVon("2026-10-18T16:00:00+02:00"), saisonVon("2027-03-01T16:00:00+0
 const fs1 = [{ slug: "a", kickoff: "2026-10-18T14:00:00Z" }, { slug: "b", kickoff: "2026-10-18T16:30:00Z" }];
 gleich([passendesSpiel(fs1, "2026-10-18T16:00:00+02:00")?.slug, passendesSpiel(fs1, "2026-10-18T18:00:00+02:00")?.slug, passendesSpiel(fs1, "2026-10-19T16:00:00+02:00")],
   ["a", "b", null], "FuPa-Spiel zum FLF-Anstoß");
-gleich([abrufFaellig(Date.parse("2026-10-24T14:15:00+02:00")), abrufFaellig(Date.parse("2026-10-21T14:15:00+02:00")),
-        abrufFaellig(Date.parse("2026-10-21T20:15:00Z")), abrufFaellig(Date.parse("2026-10-21T23:30:00+02:00"))],
-  [true, false, true, true], "Anstoß-Takt");
+{
+  // Anstoß-Takt wie bei Koeppchen (seit 20.10.2026), alles in Luxemburger Zeit.
+  const f = iso => abrufFaellig(Date.parse(iso));
+  ok(f("2026-10-24T08:00:00+02:00") && f("2026-10-24T14:45:00+02:00") && f("2026-10-24T22:00:00+02:00"), "Samstag 8–22 Uhr jede Viertelstunde");
+  ok(!f("2026-10-24T07:45:00+02:00") && !f("2026-10-24T22:15:00+02:00") && !f("2026-10-24T14:50:00+02:00"), "nicht vor 8, nicht nach 22, nur Viertelstunden");
+  ok(f("2026-10-25T08:00:00+01:00") && f("2026-10-25T21:45:00+01:00") && !f("2026-10-25T07:45:00+01:00"), "Sonntag nach der Zeitumstellung: 8–22 Uhr");
+  ok(f("2026-10-26T22:15:00+01:00") && !f("2026-10-26T21:15:00+01:00") && !f("2026-10-26T22:00:00+01:00"), "Mo–Fr 22:15 Ortszeit, auch im Winter");
+  ok(f("2026-10-23T22:15:00+02:00") && !f("2026-10-23T21:15:00+02:00") && !f("2026-10-21T14:15:00+02:00"), "Freitag wie Wochentag, Sommerzeit; tagsüber nichts");
+  ok(f("2026-10-21T23:30:00+02:00") && f("2026-10-31T23:30:00+01:00") && !f("2026-10-21T23:15:00+02:00"), "jeden Abend 23:30 (Sommer und Winter)");
+  ok(f("2026-10-20T07:00:00+02:00") && !f("2026-10-20T07:15:00+02:00") && f("2026-10-27T07:00:00+01:00"), "7:00 Ortszeit, auch nach der Zeitumstellung");
+  let woche = 0; for (let t = Date.parse("2026-10-24T00:00:00+02:00"); t < Date.parse("2026-10-31T00:00:00+01:00"); t += 15 * 60e3) woche += abrufFaellig(t);
+  ok(woche === 2 * 57 + 5 + 7 + 7, "eine Woche: 57 je Wochenendtag + 5 Abende 22:15 + 7× 23:30 + 7× 7:00, waren " + woche);
+}
 gleich(kuerzen({ slug: "s", homeGoal: 2, awayGoal: 1, section: "LIVE", live: { minute: 55, period: "secondHalf", running: true },
                  homeTeam: { slug: "h" }, highlights: [{ type: "goal", minute: 12, team: { teamSlug: "h" }, primaryRole: { firstName: "A", lastName: "B" }, subtype: "goal_headed" }] }).tore,
   [{ min: 12, plus: 0, heim: true, name: "A B", art: "goal_headed" }], "Worker: Tore");
@@ -186,6 +197,50 @@ for (const v of ordner) {
   ok(fs.existsSync(path.join(WURZEL, v, "logo.png")), v + ": logo.png");
   // Unten nur der Name, kein Logo — das Koeppchen-Logo darf bei fremden Vereinen nicht stehen.
   ok(!/class="von">[^`]*<img/.test(fs.readFileSync(path.join(WURZEL, v, "index.html"), "utf8")), v + ": „Gemacht von“ ohne Logo");
+}
+
+/* --- Live: Kasten erst mit echten Daten, FuPa mit Heim/Gast andersherum --- */
+{
+  const SEN = team(201, F, CLUB), GEG = team(202, "Gegner Senior", 600000);
+  const DIV = { id: 20, name: "Division 1 Série 2", showResult: true, showRanking: true };
+  const anst = "2026-10-25T16:00:00+01:00";
+  const r1 = roh(DIV, "CC", anst, GEG, SEN, null, null, { ak: AK("Seniors"), tag: 9 });
+  const DS = aufbereiten({ saison: { id: "20262027", name: "Saison 2026-2027" }, vereinsSpiele: [r1], klassen: { 20: { spiele: [r1], tabelle: null } } });
+  const t0 = Date.parse(anst) + 30 * 60e3, vS = ML.sicht(DS, 201, t0), sp = ML.liveSpiel(vS, t0);
+  ok(sp && sp.id === r1.match.id, "Seniors 1: laufendes Spiel aus dem Spielplan");
+  ok(M.liveSpiel(M.sicht(DS, 201, t0), t0) === null, "ohne Worker kein Live");
+  const b = ML.liveBasis(null, sp);
+  const W1 = { slug: "gegner-m1-fc-beispiel-m1-261025", hs: 1, as: 0, section: "LIVE", ticker: "X", tore: [{ min: 5, plus: 0, heim: true }], karten: [], fuer: sp.id };
+  const lv = ML.liveAnzeige(ML.mitWorker(b, W1), vS, t0);
+  ok(lv && lv.hs === 1 && ML.fupaGedreht(lv, false) === false, "Worker füllt den Kasten, Heim/Gast wie bei der FLF");
+  ok(ML.liveAnzeige(ML.mitWorker(b, { ...W1, hs: null, as: null, ticker: null, tore: [] }), vS, t0) === null, "FuPa „LIVE“ ohne Tickerer: kein Kasten");
+  ok(ML.liveAnzeige(ML.mitWorker(b, { ...W1, section: "PRE" }), vS, t0) === null, "vor Anpfiff kein Kasten");
+  const lv2 = ML.nachFlf(ML.liveAnzeige(ML.mitWorker(b, { ...W1, slug: "fc-beispiel-m1-gegner-m1-261025" }), vS, t0), false);
+  gleich([lv2.hs, lv2.as, lv2.tore[0].heim], [0, 1, false], "FuPa führt uns als Heim, die FLF als Gast: Stand und Tore gedreht");
+  ok(ML.nachFlf(null, true) === null && ML.fupaGedreht({ hs: 1 }, true) === null, "ohne Slug nichts drehen");
+}
+
+/* --- Countdown 15 min vor Anpfiff --- */
+{
+  const sp = { d: "2026-10-19T20:00:00+02:00" }, um = hm => Date.parse("2026-10-19T" + hm + ":00+02:00");
+  gleich([um("19:44"), um("19:45"), um("19:48") + 30e3, um("19:59") + 30e3, um("20:00")].map(t => M.minutenBisAnpfiff(sp, t)),
+    [null, 15, 12, 1, null], "Countdown: ab 15 min, aufgerundet, beim Anpfiff weg");
+  ok(M.minutenBisAnpfiff({ d: "2026-12-05T00:00:01+01:00" }, Date.parse("2026-12-04T23:50:00+01:00")) === null, "Uhrzeit offen: kein Countdown");
+}
+
+/* --- Unsere Woche --- */
+{
+  const di = Date.parse("2026-10-20T12:00:00+02:00");
+  gleich(M.wocheTage(di), ["2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25"], "Woche Mo–So um einen Dienstag");
+  gleich(M.wocheTage(Date.parse("2026-10-25T21:59:00+02:00"))[0], "2026-10-19", "Sonntag vor 22 Uhr: noch diese Woche");
+  gleich(M.wocheTage(Date.parse("2026-10-25T22:00:00+01:00"))[0], "2026-10-26", "Sonntag ab 22 Uhr: nächste Woche (auch über die Zeitumstellung)");
+  const w = M.wocheSpiele(D, M.wocheTage(di), di);
+  ok(w.filter(sp => sp.d.startsWith("2026-10-24")).length === 1, "Pokalspiel nur einmal, obwohl bei U13 1 und U13 2");
+  ok(w.find(sp => sp.d.startsWith("2026-10-24"))?.reiter === "U13", "Pokal ohne I/II heißt „U13“");
+  ok(!w.some(sp => sp.d.startsWith("2026-10-17")), "Spiel der Vorwoche nicht dabei");
+  gleich(M.wocheBilanz([{ gespielt: true, heim: true, hs: 2, as: 1 }, { gespielt: true, heim: false, hs: 2, as: 1 },
+    { gespielt: true, heim: true, hs: 1, as: 1 }, { gespielt: true, heim: true, hs: 3, as: 0, erg: false }]), { s: 1, u: 1, n: 1 },
+    "Bilanz: Heim/Gast richtig, ohne veröffentlichte Ergebnisse (U9/U11) nicht gezählt");
 }
 
 console.log(fehler ? `${fehler} von ${n} Prüfungen fehlgeschlagen` : `alle ${n} Prüfungen bestanden`);

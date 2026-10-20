@@ -22,6 +22,15 @@ Kurz, was man wissen muss:
   freigegeben. Am 19.10. geprüft: Kehlen–Yellow Boys 5:0 per `verein`+`anstoss` gefunden,
   Länderspiel per Slug, fremder Slug/unbekannter Verein/zu alter Anstoß → 400, CORS `*`.
   Ob der Takt (`scheduled`, Secret `GITHUB_TOKEN`) anstößt, zeigen die Läufe auf GitHub.
+- **Aus Koeppchen nachgezogen bis `9081a07`** (20.10.2026, Koeppchen-Fassung k): Countdown, ehrlicher
+  Ticker, 📍 überall, Forfait im Voraus, BGL-Datum, Unsere Woche, Abrufzeiten 7:00/22:15/23:30.
+  Nicht übernommen (vom Nutzer): Ticker Seniors 2/3, anonymer Zähler. Nächster Abgleich: Basis ist
+  `fussball.html` bei `9081a07`, `git merge-file` gegen `vorlage/index.html`, dann Koeppchen-Eigenes
+  (Namen, `fc-koeppchen`, Reserven, Zähler) wieder herausnehmen. Eigene Ergänzungen der Vorlage:
+  `fupaGedreht`/`nachFlf` (Heim/Gast bei FuPa andersherum, auch im LIVE-Kasten), `&verein=` bei jeder
+  Worker-Frage, Woche-Knopf bricht bei 320 px um statt abzuschneiden.
+- **Worker-Code geändert → beim Nutzer neu einfügen lassen** (Cloudflare, Edit code). Zuletzt
+  20.10.2026 (Abrufzeiten).
 - `slug` eines Vereins nie ändern (Kalender-UIDs, Speicherschlüssel `fussball_<slug>`; alle Apps
   teilen sich die Herkunft `strakekine.github.io`).
 - Unten „Gemacht von Laurent R.“ **nur als Name, ohne Logo**: das Koeppchen-Logo hat in fremden

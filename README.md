@@ -72,12 +72,25 @@ Ein Worker für alle: Er liest die Vereine aus `vereine.json`, ein neuer Verein 
   nacheinander, je Verein gut eine Minute. BGL und Nationalteam einmal für alle (`gemeinsam.json`,
   dort auch das Namensgedächtnis der BGL-Tabelle). Fällt ein Verein aus, behält er seinen alten
   Stand und die anderen laufen weiter. Commit nur bei Änderung.
-- **Takt**: mit Worker am Wochenende 8–22 Uhr jede Viertelstunde, Mo–Fr 20:15 UTC, täglich 23:30;
-  GitHubs eigener Zeitplan als Reserve (oft verspätet). Ohne Worker nur die Reserve.
-- **Liveticker**: nur über den Worker. Die App fragt ihn ab 15 min vor Anstoß bis 3 h danach alle
-  20 s (`?verein=…&anstoss=…`); er sucht das Spiel bei FuPa (`<fupa>-m1-<saison>`) und gibt Stand,
-  Minute, Tore, Karten zurück. **Leer, wenn bei FuPa niemand am Platz tickert** — das liegt am
-  Verein. Ohne Worker kein Ticker; das Ergebnis kommt mit dem nächsten FLF-Abruf. Anders als bei
+- **Takt** (Luxemburger Zeit, der Worker rechnet selbst um): jeden Tag 7:00 und 23:30, Mo–Fr
+  zusätzlich 22:15, Sa/So 8–22 Uhr jede Viertelstunde; GitHubs eigener Zeitplan als Reserve (oft
+  verspätet). Ohne Worker nur die Reserve. Die Fußzeile der App nennt dieselben Zeiten.
+- **Liveticker**: nur über den Worker, nur Seniors 1 (und Nationalteam). Die App fragt ihn ab 15 min
+  vor Anstoß bis 3 h danach alle 20 s (`?verein=…&anstoss=…`); er sucht das Spiel bei FuPa
+  (`<fupa>-m1-<saison>`) und gibt Stand, Minute, Tore, Karten zurück. Der LIVE-Kasten kommt erst,
+  wenn FuPa wirklich etwas hat (Stand, Tickerer oder Tor) — FuPa setzt ab Anpfiff von selbst
+  „LIVE“. Vorher steht im Spieltag-Kasten „Liveticker, wenn verfügbar …“, ab Anpfiff „falls bei FuPa
+  jemand tickert“, ab 15 min ohne Tickerer „Bisher tickert niemand bei FuPa …“. **Leer, wenn bei FuPa
+  niemand am Platz tickert** — das liegt am Verein. Führt FuPa Heim/Gast andersherum (der Slug
+  beginnt mit der Heimmannschaft), werden Stand und Tore auf die FLF-Reihenfolge gedreht.
+- **Countdown**: 15 min vor Anpfiff „Gleich geht's los! ⚽ · Anpfiff in n Minuten“ (nicht bei
+  Uhrzeit offen).
+- **Unsere Woche**: breiter Knopf über den Reitern (Vereinslogo links und rechts, „· n Spiele“,
+  „· heute n Spiele“ oder „· 🔴 n Spiele gerade LIVE“). Alle Spiele des Vereins Mo–So (ab So 22 Uhr
+  die nächste Woche), je Spiel einmal, Schild der Mannschaft, 🏠/✈️, Uhrzeit oder „läuft“/„🔴 LIVE“,
+  📍 bis zum Ergebnis, „gleichzeitig mit …“, nach dem Wochenende die Bilanz. Tippen öffnet den Reiter.
+- **Stadion** (📍) bei allen kommenden Spielen, auch im BGL-Reiter; Forfait mit Termin in der
+  Zukunft heißt „Forfait, im Voraus gewertet“. Ohne Worker kein Ticker; das Ergebnis kommt mit dem nächsten FLF-Abruf. Anders als bei
   Koeppchen gibt es keinen Rückfall über GitHub (`live.json`): der bräuchte für viele Vereine
   gleichzeitig laufende Wachen.
 - **Spielgemeinschaften** (`ENT Mondorf/Schengen I`) zählen mit, die FLF führt sie beim Verein. Die
@@ -87,6 +100,13 @@ Ein Worker für alle: Er liest die Vereine aus `vereine.json`, ein neuer Verein 
   ein eigener Schlüssel (`fussball_<slug>`) — sonst sähe eine App den Stand einer anderen.
 - **Auf-/Abstieg** (`REGELN` in `vorlage/index.html`) ist das FLF-Rundschreiben für U13/U15, gilt für
   alle Vereine. Neues Rundschreiben → dort nachtragen, `--alle`.
+
+## Aus der Koeppchen-App übernommen
+
+Stand der Vorlage: Koeppchen bis Commit `9081a07` (20.10.2026, Fassung k), am 20.10. nachgezogen.
+**Bewusst nicht übernommen**: Liveticker für Seniors 2/3 (bei Koeppchen über FuPa-Slugs, die der
+Abruf vorab holt) und der anonyme Zähler (D1 im Worker). Neue Koeppchen-Änderungen kommen nicht von
+selbst — nachziehen per Drei-Wege-Abgleich (Basis = `fussball.html` beim letzten Abgleich).
 
 ## Testen
 
