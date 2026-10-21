@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-20T20:16:55.822Z",
+ "stand": "2026-10-21T20:16:50.917Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4896,6 +4896,18 @@
     },
     {
      "pl": 7,
+     "id": 45077,
+     "n": "FC Mamer 32 I",
+     "sp": 4,
+     "s": 2,
+     "u": 0,
+     "nl": 2,
+     "t": 11,
+     "g": 13,
+     "pkt": 6
+    },
+    {
+     "pl": 8,
      "id": 44800,
      "n": "FC The Belval Belvaux",
      "sp": 5,
@@ -4907,28 +4919,16 @@
      "pkt": 4
     },
     {
-     "pl": 8,
+     "pl": 9,
      "id": 45209,
      "n": "FC Luxembourg City",
-     "sp": 4,
+     "sp": 5,
      "s": 1,
      "u": 1,
-     "nl": 2,
-     "t": 10,
-     "g": 13,
+     "nl": 3,
+     "t": 15,
+     "g": 19,
      "pkt": 4
-    },
-    {
-     "pl": 9,
-     "id": 45077,
-     "n": "FC Mamer 32 I",
-     "sp": 3,
-     "s": 1,
-     "u": 0,
-     "nl": 2,
-     "t": 5,
-     "g": 8,
-     "pkt": 3
     },
     {
      "pl": 10,
@@ -5502,9 +5502,9 @@
       "id": 45209,
       "n": "FC Luxembourg City"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 6,
+     "as": 5,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Fr. Trausch (synth.)"
     },
@@ -5708,21 +5708,21 @@
     },
     {
      "id": 1013071,
-     "d": "2026-11-02T20:00:00+01:00",
+     "d": "2026-11-02T20:15:00+01:00",
      "tag": 7,
      "h": {
-      "id": 46456,
-      "n": "SC Bettembourg"
-     },
-     "a": {
       "id": 45114,
       "n": "CS Fola Esch-Alzette I"
+     },
+     "a": {
+      "id": 46456,
+      "n": "SC Bettembourg"
      },
      "hs": null,
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Stade Municipal (Bettembourg, synth.)"
+     "ort": "Stade E. Mayrisch II (Esch, synth.)"
     },
     {
      "id": 1013086,
@@ -6770,21 +6770,21 @@
     },
     {
      "id": 1013171,
-     "d": "2027-04-12T20:15:00+02:00",
+     "d": "2027-04-12T20:00:00+02:00",
      "tag": 17,
      "h": {
-      "id": 45114,
-      "n": "CS Fola Esch-Alzette I"
-     },
-     "a": {
       "id": 46456,
       "n": "SC Bettembourg"
+     },
+     "a": {
+      "id": 45114,
+      "n": "CS Fola Esch-Alzette I"
      },
      "hs": null,
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Stade E. Mayrisch II (Esch, synth.)"
+     "ort": "Stade Municipal (Bettembourg, synth.)"
     },
     {
      "id": 1013173,
