@@ -1587,6 +1587,24 @@
     "ort": "Party-Rent-Arena (Rosport)"
    },
    {
+    "id": 1001127,
+    "d": "2026-10-31T16:00:00+01:00",
+    "tag": 12,
+    "h": {
+     "id": 44695,
+     "n": "AS La Jeunesse d'Esch/Alzette"
+    },
+    "a": {
+     "id": 44988,
+     "n": "FC Differdange 03"
+    },
+    "hs": null,
+    "as": null,
+    "gespielt": false,
+    "forfait": false,
+    "ort": "Stade de la Frontière (Esch)"
+   },
+   {
     "id": 1001128,
     "d": "2026-10-31T16:00:00+01:00",
     "tag": 12,
@@ -1603,24 +1621,6 @@
     "gespielt": false,
     "forfait": false,
     "ort": "Stade Jos Nosbaum (Dudelange)"
-   },
-   {
-    "id": 1001127,
-    "d": "2026-10-31T18:00:00+01:00",
-    "tag": 12,
-    "h": {
-     "id": 44695,
-     "n": "AS La Jeunesse d'Esch/Alzette"
-    },
-    "a": {
-     "id": 44988,
-     "n": "FC Differdange 03"
-    },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
-    "forfait": false,
-    "ort": "Stade de la Frontière (Esch)"
    },
    {
     "id": 1001125,

@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-21T20:16:50.917Z",
+ "stand": "2026-10-22T20:17:01.966Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -12644,9 +12644,9 @@
       "id": 45344,
       "n": "Sporting Bertrange II"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 11,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain um Gréin (Remich, synth.)"
     },
@@ -14852,9 +14852,9 @@
       "id": 45299,
       "n": "U.N. Käerjeng 97 I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 13,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Jos Durbach (Bous, synth.)"
     },
@@ -18670,7 +18670,7 @@
      "as": null,
      "gespielt": false,
      "forfait": false,
-     "ort": "Complexe sportif Reuler (synth.)"
+     "ort": "Stade Auf Dem Kiemel (Weiswampach)"
     },
     {
      "id": 13729,
@@ -21869,6 +21869,24 @@
     "ort": "Party-Rent-Arena (Rosport)"
    },
    {
+    "id": 1001127,
+    "d": "2026-10-31T16:00:00+01:00",
+    "tag": 12,
+    "h": {
+     "id": 44695,
+     "n": "AS La Jeunesse d'Esch/Alzette"
+    },
+    "a": {
+     "id": 44988,
+     "n": "FC Differdange 03"
+    },
+    "hs": null,
+    "as": null,
+    "gespielt": false,
+    "forfait": false,
+    "ort": "Stade de la Frontière (Esch)"
+   },
+   {
     "id": 1001128,
     "d": "2026-10-31T16:00:00+01:00",
     "tag": 12,
@@ -21885,24 +21903,6 @@
     "gespielt": false,
     "forfait": false,
     "ort": "Stade Jos Nosbaum (Dudelange)"
-   },
-   {
-    "id": 1001127,
-    "d": "2026-10-31T18:00:00+01:00",
-    "tag": 12,
-    "h": {
-     "id": 44695,
-     "n": "AS La Jeunesse d'Esch/Alzette"
-    },
-    "a": {
-     "id": 44988,
-     "n": "FC Differdange 03"
-    },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
-    "forfait": false,
-    "ort": "Stade de la Frontière (Esch)"
    },
    {
     "id": 1001125,
