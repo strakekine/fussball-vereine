@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-22T20:17:01.966Z",
+ "stand": "2026-10-23T20:16:54.260Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -4860,8 +4860,8 @@
     },
     {
      "pl": 4,
-     "id": 44961,
-     "n": "Alliance Äischdall Hobscheid-Eischen",
+     "id": 46456,
+     "n": "SC Bettembourg",
      "sp": 5,
      "s": 3,
      "u": 0,
@@ -4872,14 +4872,14 @@
     },
     {
      "pl": 5,
-     "id": 46456,
-     "n": "SC Bettembourg",
-     "sp": 5,
+     "id": 44961,
+     "n": "Alliance Äischdall Hobscheid-Eischen",
+     "sp": 6,
      "s": 3,
      "u": 0,
-     "nl": 2,
+     "nl": 3,
      "t": 14,
-     "g": 10,
+     "g": 17,
      "pkt": 9
     },
     {
@@ -4896,6 +4896,18 @@
     },
     {
      "pl": 7,
+     "id": 44800,
+     "n": "FC The Belval Belvaux",
+     "sp": 6,
+     "s": 2,
+     "u": 1,
+     "nl": 3,
+     "t": 22,
+     "g": 17,
+     "pkt": 7
+    },
+    {
+     "pl": 8,
      "id": 45077,
      "n": "FC Mamer 32 I",
      "sp": 4,
@@ -4905,18 +4917,6 @@
      "t": 11,
      "g": 13,
      "pkt": 6
-    },
-    {
-     "pl": 8,
-     "id": 44800,
-     "n": "FC The Belval Belvaux",
-     "sp": 5,
-     "s": 1,
-     "u": 1,
-     "nl": 3,
-     "t": 15,
-     "g": 17,
-     "pkt": 4
     },
     {
      "pl": 9,
@@ -5520,9 +5520,9 @@
       "id": 44961,
       "n": "Alliance Äischdall Hobscheid-Eischen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 7,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade FC The Belval (Belvaux, synth.)"
     },
@@ -7379,30 +7379,42 @@
     },
     {
      "pl": 3,
-     "id": 44828,
-     "n": "Tricolore Gasperich II",
+     "id": 44699,
+     "n": "US Berdorf-Consdorf 01",
      "sp": 5,
      "s": 3,
      "u": 0,
      "nl": 2,
-     "t": 11,
-     "g": 9,
+     "t": 16,
+     "g": 12,
      "pkt": 9
     },
     {
      "pl": 4,
-     "id": 44630,
-     "n": "FC Les Aiglons Dalheim",
-     "sp": 4,
+     "id": 44828,
+     "n": "Tricolore Gasperich II",
+     "sp": 6,
      "s": 3,
      "u": 0,
-     "nl": 1,
+     "nl": 3,
      "t": 12,
-     "g": 13,
+     "g": 12,
      "pkt": 9
     },
     {
      "pl": 5,
+     "id": 44630,
+     "n": "FC Les Aiglons Dalheim",
+     "sp": 5,
+     "s": 3,
+     "u": 0,
+     "nl": 2,
+     "t": 14,
+     "g": 18,
+     "pkt": 9
+    },
+    {
+     "pl": 6,
      "id": 45069,
      "n": "Olympia Christnach-Waldbillig II",
      "sp": 5,
@@ -7414,19 +7426,19 @@
      "pkt": 7
     },
     {
-     "pl": 6,
-     "id": 44699,
-     "n": "US Berdorf-Consdorf 01",
-     "sp": 4,
+     "pl": 7,
+     "id": 46372,
+     "n": "Una Strassen II",
+     "sp": 5,
      "s": 2,
-     "u": 0,
+     "u": 1,
      "nl": 2,
      "t": 13,
-     "g": 11,
-     "pkt": 6
+     "g": 15,
+     "pkt": 7
     },
     {
-     "pl": 7,
+     "pl": 8,
      "id": 45430,
      "n": "ENT Berbourg/UMW II",
      "sp": 5,
@@ -7436,18 +7448,6 @@
      "t": 10,
      "g": 11,
      "pkt": 6
-    },
-    {
-     "pl": 8,
-     "id": 46372,
-     "n": "Una Strassen II",
-     "sp": 4,
-     "s": 1,
-     "u": 1,
-     "nl": 2,
-     "t": 8,
-     "g": 13,
-     "pkt": 4
     },
     {
      "pl": 9,
@@ -7949,9 +7949,9 @@
       "id": 44630,
       "n": "FC Les Aiglons Dalheim"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Rue de l'Ecole (Strassen, synth.)"
     },
@@ -7967,9 +7967,9 @@
       "id": 44828,
       "n": "Tricolore Gasperich II"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 3,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain Maartbësch (Berdorf)"
     },
@@ -11259,12 +11259,12 @@
      "id": 46021,
      "n": "Union Remich/Bous II",
      "sp": 5,
-     "s": 3,
+     "s": 4,
      "u": 0,
-     "nl": 2,
-     "t": 49,
-     "g": 19,
-     "pkt": 9
+     "nl": 1,
+     "t": 51,
+     "g": 17,
+     "pkt": 12
     },
     {
      "pl": 3,
@@ -11283,12 +11283,12 @@
      "id": 46007,
      "n": "Yellow Boys Weiler-la-Tour III",
      "sp": 5,
-     "s": 3,
+     "s": 2,
      "u": 0,
-     "nl": 2,
-     "t": 28,
-     "g": 26,
-     "pkt": 9
+     "nl": 3,
+     "t": 26,
+     "g": 28,
+     "pkt": 6
     },
     {
      "pl": 5,
@@ -11544,8 +11544,8 @@
       "id": 46021,
       "n": "Union Remich/Bous II"
      },
-     "hs": 3,
-     "as": 1,
+     "hs": 1,
+     "as": 3,
      "gespielt": true,
      "forfait": false,
      "ort": "Stade Am Dieltchen (Weiler, synth.)"
@@ -11914,9 +11914,9 @@
       "id": 45491,
       "n": "ENT Mondorf/Schengen I"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 15,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain synth. Lallange (Esch, synth.)"
     },
@@ -12608,9 +12608,9 @@
       "id": 45270,
       "n": "Racing FC Union Luxembourg II"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 1,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Amadéo Barozzi (Dudelange, synth.)"
     },
@@ -19853,10 +19853,10 @@
       "n": "Union Mertert-Wasserbillig"
      },
      "hs": 3,
-     "as": 1,
+     "as": 0,
      "gespielt": false,
-     "forfait": false,
-     "bem": "Arr�t�",
+     "forfait": true,
+     "bem": "FF",
      "ort": "Stade Déckebierg (Koerich)"
     },
     {
