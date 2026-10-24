@@ -1454,9 +1454,9 @@
      "id": 44975,
      "n": "Progrès Niederkorn"
     },
-    "hs": null,
-    "as": null,
-    "gespielt": false,
+    "hs": 2,
+    "as": 0,
+    "gespielt": true,
     "forfait": false,
     "ort": "Stade du Centre Sportif Deich (Ettelbruck)"
    },
