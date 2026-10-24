@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T10:31:52.578Z",
+ "stand": "2026-10-24T12:46:58.504Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -14158,9 +14158,9 @@
       "id": 46421,
       "n": "Yellow Boys Weiler-la-Tour III"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 13,
+     "as": 6,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Aloyse Meyer (Dudelange, synth.)"
     },
