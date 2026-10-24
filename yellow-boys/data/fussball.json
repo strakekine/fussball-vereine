@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T15:46:49.460Z",
+ "stand": "2026-10-24T16:16:52.125Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -19055,9 +19055,9 @@
       "id": 46207,
       "n": "US Moutfort-Medingen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 6,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Am Duerf (Harlange, synth.)"
     },
@@ -19091,9 +19091,9 @@
       "id": 46602,
       "n": "CS Bourscheid"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 8,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Hosingen, synth.)"
     },
@@ -19127,9 +19127,9 @@
       "id": 45689,
       "n": "Una Strassen"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 7,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Aloyse Meyer (Dudelange, synth.)"
     },
@@ -19163,10 +19163,11 @@
       "id": 45824,
       "n": "Union Titus Pétange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 5,
+     "as": 3,
+     "gespielt": true,
      "forfait": false,
+     "bem": "t.a.b. 5 - 3",
      "ort": "Terrain 2 (Mondercange, synth.)"
     },
     {
