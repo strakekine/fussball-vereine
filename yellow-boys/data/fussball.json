@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T12:46:58.504Z",
+ "stand": "2026-10-24T14:16:50.624Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18929,9 +18929,9 @@
       "id": 45721,
       "n": "US Rumelange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 7,
+     "as": 4,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade CS Sanem (Sanem, synth.)"
     },
