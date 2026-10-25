@@ -40,3 +40,9 @@ Kurz, was man wissen muss:
 - Testen: `node test/fussball.mjs` (läuft auch vor jedem Abruf). Abruf live in der Cloud:
   `NODE_USE_ENV_PROXY=1 node tools/fussball.mjs [ordner …]`.
 - Die Action committet auf `main` — vor dem Push `git pull --rebase`.
+- **Zwei Läufe gleichzeitig** (Worker-Anstoß + verspätete GitHub-Reserve, Sa/So stündlich möglich):
+  25.10.2026 17:30 scheiterte der zweite am Rebase-Konflikt in `data/fussball.json`, weil er den Stand
+  seines Auslösens ausgecheckt hatte. Seitdem `checkout` mit `ref: main` und `pull --rebase -X theirs`
+  (der neuere Abruf gilt, die Dateien werden ohnehin ganz neu geschrieben), dazwischen `rebase --abort`.
+  Am selben Tag 15:00 einmal FLF nicht erreichbar (Connect-Timeout, 3 Versuche) — kommt vor, der
+  nächste Lauf holt es nach; GitHub schickt dann eine Fehler-Mail.

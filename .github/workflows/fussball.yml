@@ -30,7 +30,12 @@ jobs:
     # Je Verein gut eine Minute (FLF-Abfragen mit 1 s Pause).
     timeout-minutes: 45
     steps:
+      # ref: main — sonst arbeitet ein Lauf, der in `concurrency` gewartet hat, mit dem Stand von seinem
+      # Auslösen und kann danach nicht mehr speichern (25.10.2026: Worker-Lauf und verspätete
+      # GitHub-Reserve um 17:30 fast gleichzeitig).
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -44,7 +49,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Fußball: Daten aktualisiert"
           for i in 1 2 3; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            # -X theirs: bei Konflikt gilt dieser (neuere) Abruf — die Dateien werden jedes Mal ganz neu geschrieben.
+            git pull --rebase -X theirs origin main && git push origin HEAD:main && exit 0
+            git rebase --abort 2>/dev/null || true   # sonst scheitert der nächste Versuch an den Resten
             sleep $((i * 10))
           done
           exit 1
