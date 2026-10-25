@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-25T13:16:48.970Z",
+ "stand": "2026-10-25T14:16:55.992Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18612,9 +18612,9 @@
       "id": 46220,
       "n": "FC Lorentzweiler"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Canach, synth.)"
     },
@@ -18648,9 +18648,9 @@
       "id": 46335,
       "n": "SC Bettembourg"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 9,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Henri Bausch (Steinsel, synth.)"
     },
@@ -18684,9 +18684,9 @@
       "id": 46001,
       "n": "Yellow Boys Weiler-la-Tour"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 10,
+     "as": 2,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Pétange, synth.)"
     },
