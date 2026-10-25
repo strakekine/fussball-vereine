@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-25T17:01:55.180Z",
+ "stand": "2026-10-25T17:16:49.044Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -1747,9 +1747,9 @@
       "id": 44844,
       "n": "FC Schifflange 95"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 4,
+     "as": 0,
+     "gespielt": true,
      "forfait": false,
      "ort": "Stade Prince Jean (Luxembourg, synth.)"
     },
@@ -18830,7 +18830,7 @@
      },
      "hs": 7,
      "as": 2,
-     "gespielt": false,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain 2 (Strassen, synth.)"
     },
@@ -21810,8 +21810,8 @@
      "id": 44695,
      "n": "AS La Jeunesse d'Esch/Alzette"
     },
-    "hs": null,
-    "as": null,
+    "hs": 0,
+    "as": 3,
     "gespielt": false,
     "forfait": false,
     "ort": "Stade Alphonse Theis (Hesperange)"
@@ -24612,6 +24612,18 @@
     "pl": 1,
     "sp": 11,
     "s": 10,
+    "u": 1,
+    "nl": 0,
+    "t": 22,
+    "g": 3,
+    "pkt": 31,
+    "id": 44678,
+    "n": "Una Strassen"
+   },
+   {
+    "pl": 2,
+    "sp": 11,
+    "s": 10,
     "u": 0,
     "nl": 1,
     "t": 32,
@@ -24619,18 +24631,6 @@
     "pkt": 30,
     "id": 44988,
     "n": "FC Differdange 03"
-   },
-   {
-    "pl": 2,
-    "sp": 10,
-    "s": 9,
-    "u": 1,
-    "nl": 0,
-    "t": 20,
-    "g": 3,
-    "pkt": 28,
-    "id": 44678,
-    "n": "Una Strassen"
    },
    {
     "pl": 3,
@@ -24730,18 +24730,6 @@
    },
    {
     "pl": 11,
-    "sp": 10,
-    "s": 3,
-    "u": 2,
-    "nl": 5,
-    "t": 15,
-    "g": 18,
-    "pkt": 11,
-    "id": 45017,
-    "n": "US Hostert"
-   },
-   {
-    "pl": 12,
     "sp": 11,
     "s": 3,
     "u": 2,
@@ -24751,6 +24739,18 @@
     "pkt": 11,
     "id": 44749,
     "n": "Victoria Rosport"
+   },
+   {
+    "pl": 12,
+    "sp": 11,
+    "s": 3,
+    "u": 2,
+    "nl": 6,
+    "t": 15,
+    "g": 20,
+    "pkt": 11,
+    "id": 45017,
+    "n": "US Hostert"
    },
    {
     "pl": 13,
