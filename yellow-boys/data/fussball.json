@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-24T20:58:56.628Z",
+ "stand": "2026-10-25T13:16:48.970Z",
  "saison": {
   "id": "20262027",
   "n": "Saison 2026-2027"
@@ -18630,9 +18630,9 @@
       "id": 46434,
       "n": "F91 Dudelange"
      },
-     "hs": null,
-     "as": null,
-     "gespielt": false,
+     "hs": 0,
+     "as": 16,
+     "gespielt": true,
      "forfait": false,
      "ort": "Terrain rue de Mersch (Kopstal)"
     },
