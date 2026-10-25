@@ -7,6 +7,14 @@ nicht hierher und wird von hier aus nie angefasst** (vom Nutzer, ausdrücklich).
 `CLAUDE.md` die ganze Vorgeschichte (FLF-Schnittstelle, FuPa, Liveticker, BGL-Namen, Kalender,
 iPhone-Regeln); was hier gilt, steht in `README.md`.
 
+**Stand 25.10.2026: kein Verein eingetragen, alles ruht** (vom Nutzer). Die Yellow Boys Weiler-la-Tour
+(19.–25.10.) waren nur zum Zeigen und sind gelöscht, samt `gemeinsam.json`; GitHubs Zeitplan im
+Workflow ist auskommentiert, den Worker-Cron schaltet der Nutzer bei Cloudflare ab. Das Gerüst bleibt.
+Kommt ein Verein: Verein eintragen, `schedule:` wieder einkommentieren, Worker-Cron wieder an.
+Damalige verein.json als Vorlage: `{"name":"Yellow Boys","kurz":"Yellow Boys","flfName":"Yellow Boys
+Weiler-la-Tour","clubId":500121,"slug":"yellow-boys","fupa":"fc-yellow-boys-weiler-zum-turm",
+"farben":{"kopf":"#231f20","akzent":"#fdde00"},"start":"U13 1"}`.
+
 Kurz, was man wissen muss:
 - **Ein Repo, ein Workflow, ein Cloudflare-Worker für alle Vereine** (vom Nutzer: ein Repo für alle;
   Worker-Frage Claude überlassen → einer für alle, er liest `vereine.json`). Neuer Verein:

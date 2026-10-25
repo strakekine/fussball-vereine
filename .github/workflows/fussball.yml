@@ -4,16 +4,12 @@
 name: Fussball-Daten
 
 on:
-  schedule:
-    # Zeiten in UTC (GitHub kennt keine Zeitzone). Luxemburg ist UTC+1, im Sommer UTC+2.
-    # GitHub startet geplante Läufe oft verspätet oder lässt sie aus. Wer es pünktlicher will:
-    # tools/worker.js (Cloudflare) stößt diesen Workflow alle 15 min an.
-    # Samstag und Sonntag stündlich (7:17–21:17 Winterzeit).
-    - cron: "17 6-20 * * 0,6"
-    # Montag bis Freitag einmal abends (20:17 Winterzeit).
-    - cron: "17 19 * * 1-5"
-    # Jeden Abend spät, für Abendspiele.
-    - cron: "37 22 * * *"
+  # GitHubs eigener Zeitplan ist abgeschaltet (25.10.2026, vom Nutzer: kein Verein eingetragen, die
+  # Yellow Boys waren nur zum Zeigen). Wieder einschalten, sobald ein Verein dazukommt:
+  # schedule:
+  #   - cron: "17 6-20 * * 0,6"   # Sa/So stündlich (Reserve zum Worker)
+  #   - cron: "17 19 * * 1-5"     # Mo–Fr abends
+  #   - cron: "37 22 * * *"       # jeden Abend spät
   workflow_dispatch:
 
 permissions:

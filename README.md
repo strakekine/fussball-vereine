@@ -9,6 +9,11 @@ Entstanden aus der App „FC Koeppchen“ (`fussball.html` im Repo `panini-wm-20
 sie ist, und wird hier weder gelesen noch geändert** — dieses Repo ist eine eigene Kopie (Stand
 19.10.2026). Verbesserungen dort wandern nicht von selbst hierher.
 
+> **Stand 25.10.2026: ruht.** Kein Verein eingetragen (die Yellow Boys waren nur zum Zeigen und sind
+> gelöscht), GitHubs Zeitplan im Workflow ist auskommentiert, der Worker-Cron bei Cloudflare aus.
+> Für einen neuen Verein: eintragen wie unten, `schedule:` in `.github/workflows/fussball.yml` wieder
+> einkommentieren, Cron-Trigger beim Worker wieder anlegen.
+
 Ein Repo, ein Workflow, ein Worker für alle Vereine. App eines Vereins:
 `https://strakekine.github.io/fussball-vereine/<ordner>/`
 
